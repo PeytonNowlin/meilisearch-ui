@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.1](https://github.com/eyeix/meilisearch-ui/compare/v0.15.0...v0.15.1) (2026-02-04)
+
+
+### Bug Fixes
+
+* time fields in task list properly marked as blank. gh-262 ([ef2a4e3](https://github.com/eyeix/meilisearch-ui/commit/ef2a4e3c2b70d64efb20560b439e27d79035942e))
+
 ## [0.15.0](https://github.com/eyeix/meilisearch-ui/compare/v0.14.1...v0.15.0) (2026-01-29)
 
 
