@@ -39,5 +39,7 @@
 	},
 	"tasks_count": "{{count}} 个待处理/处理中的任务",
 	"tasks_count_tooltip": "{{count}} 个未完成任务",
-	"count_tooltip": "查看文档"
+	"count_tooltip": "查看文档",
+	"last_task": "最近任务",
+	"last_task_tooltip": "该索引最新任务的时间（已完成、进行中或排队中）"
 }

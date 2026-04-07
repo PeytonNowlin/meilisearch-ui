@@ -1,5 +1,6 @@
 "use client";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
+import { useIndexLastTaskAt } from "@/hooks/useIndexLastTaskAt";
 import { useIndexTaskCounts } from "@/hooks/useIndexTaskCounts";
 import { useInstanceStats } from "@/hooks/useInstanceStats";
 import { cn } from "@/lib/cn";
@@ -16,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useImmer } from "use-immer";
 import { EmptyArea } from "../common/empty";
 import { LoaderPage } from "../common/Loader";
+import { TimeAgo } from "../common/TimeAgo";
 import { CreateIndexButton } from "./CreateIndex";
 
 interface Props {
@@ -61,6 +63,7 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 		[indexList],
 	);
 	const [taskCounts] = useIndexTaskCounts(client, indexUids);
+	const [lastTaskAt] = useIndexLastTaskAt(client, indexUids);
 
 	useEffect(() => {
 		// load index list into fuse collection
@@ -223,6 +226,15 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 												</Tooltip>
 											</div>
 										</div>
+										<Tooltip content={t("last_task_tooltip")}>
+											<div className="flex items-center gap-2 text-sm text-neutral-500 pt-1">
+												<span className="shrink-0">{t("last_task")}</span>
+												<TimeAgo
+													className="text-neutral-600"
+													date={lastTaskAt[item.uid]}
+												/>
+											</div>
+										</Tooltip>
 									</CardBody>
 								</Card>
 							);
@@ -260,6 +272,7 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 			statsQuery.refetch,
 			isLoading,
 			taskCounts,
+			lastTaskAt,
 		],
 	);
 };

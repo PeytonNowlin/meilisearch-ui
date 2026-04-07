@@ -2,7 +2,7 @@ import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { cn } from "@/lib/cn";
 import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";
-import { showTaskSubmitNotification } from "@/lib/toast";
+import { showTaskSubmitNotification, toast } from "@/lib/toast";
 import { Button } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Settings } from "meilisearch";
@@ -33,11 +33,9 @@ export const IndexConfigEditor: FC<{
 		(data: Settings = {}) => {
 			setIsSettingsEditing(false);
 			setIndexSettingInitialData(data);
-			if (!isSettingsEditing) {
-				setIndexSettingEditorData(JSON.stringify(data, null, 2));
-			}
+			setIndexSettingEditorData(JSON.stringify(data, null, 2));
 		},
-		[isSettingsEditing],
+		[],
 	);
 
 	const querySettings = useQuery({
@@ -75,9 +73,15 @@ export const IndexConfigEditor: FC<{
 			return await currentIndex.index.updateSettings(variables);
 		},
 
-		onSuccess: (t) => {
-			showTaskSubmitNotification(t);
+		onSuccess: (task) => {
+			setIsSettingsEditing(false);
+			showTaskSubmitNotification(task);
 			setTimeout(() => querySettings.refetch(), 450);
+		},
+		onError: (error) => {
+			const errorMessage =
+				error instanceof Error ? error.message : String(error);
+			toast.error(errorMessage);
 		},
 		onSettled: () => {
 			hiddenRequestLoader();
@@ -85,9 +89,17 @@ export const IndexConfigEditor: FC<{
 	});
 
 	const onSaveSettings = useCallback(() => {
-		setIsSettingsEditing(false);
-		indexSettingEditorData &&
+		if (!indexSettingEditorData) {
+			return;
+		}
+
+		try {
 			settingsMutation.mutate(JSON.parse(indexSettingEditorData));
+		} catch (error) {
+			const errorMessage =
+				error instanceof Error ? error.message : String(error);
+			toast.error(errorMessage);
+		}
 	}, [indexSettingEditorData, settingsMutation]);
 
 	const isLoading = useMemo(() => {

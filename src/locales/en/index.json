@@ -39,5 +39,7 @@
 	},
 	"tasks_count": "{{count}} pending/processing task(s)",
 	"tasks_count_tooltip": "{{count}} incomplete task(s)",
-	"count_tooltip": "View documents"
+	"count_tooltip": "View documents",
+	"last_task": "Last task",
+	"last_task_tooltip": "Time of the latest task for this index (finished, in progress, or enqueued)"
 }
