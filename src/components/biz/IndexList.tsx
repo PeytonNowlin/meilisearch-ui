@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useImmer } from "use-immer";
 import { EmptyArea } from "../common/empty";
 import { LoaderPage } from "../common/Loader";
-import { TimeAgo } from "../common/TimeAgo";
+import { TimeAgo } from "../common/Timeago";
 import { CreateIndexButton } from "./CreateIndex";
 
 interface Props {
